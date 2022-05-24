@@ -12,16 +12,23 @@ let cssFileExt = "css";
 function fileHandler(fileName){
    if (typeof fileName === 'string'){
       fs.open(fileName, 'w', (err) => {
-          if(err) throw err;
+          if(err) throw err;        
          console.log(`Файл ${fileName} создан`);
+         
       });
    }
-   
+   return true;   
 }
 /*Функция проверки расширения файла (только имя файла без папки) */
 function checkFileExt(fileName, ext){
-   
-          if (path.extname(fileName)=== ext) return true;
+            console.log("function checkFileExt");
+            console.log("fileName="+fileName+"ext="+ext+"path.ext"+path.extname(fileName));
+            let ext1=path.extname(fileName).replace('\.','');
+          if (ext1=== ext) {
+             return true;
+             
+            console.log ("File ext is css");
+            }
           return false;  
 }
       
@@ -59,16 +66,19 @@ function checkFileExist(fileName){
 
 /*Создаем файл bundle если его нет или удаляем предварительно если он есть*/
 
-if (checkFileExist(bundleFileName)) {deleteFile(bundleFileName)};
-if (fileHandler(bundleFileName){
-   
+if (checkFileExist(bundleFileNameFull)) {deleteFile(bundleFileNameFull)};
+if (fileHandler(bundleFileNameFull)===true){
+   console.log("Читаем директорию"+bundleFileNameFull);
    /*Читаем директорию стилей, проверяем расширение файла и если оно css  то записываем в конец файла bundle данные файла*/
 
-   fs.readdir(cssPathName, { withFileTypes: true }, (err, files) => {
+   fs.readdir(cssPathNameFull, { withFileTypes: true }, (err, files) => {
       files.forEach(file => {
+         console.log("Filename=", file.name);
       if(file.isFile()){  
          if (checkFileExt(file.name, cssFileExt)){
-
+               console.log ("Добавляем содержимое файла"+file.name);
+               fromCssFile = path.join(cssPathNameFull, file.name);
+               appendFileToFile(fromCssFile, bundleFileNameFull);
 
          }
 
