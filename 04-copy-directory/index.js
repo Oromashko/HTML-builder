@@ -19,7 +19,7 @@ console.log("copyPath=",copyPath);
 console.log("origPath=",origPath);
 
 function pathHandler(pathName){
-   console.log("funstion pathHandler");
+   console.log("function pathHandler");
    if (typeof pathName === 'string'){
       fs.mkdir(pathName, function(){
       console.log(`Директория ${pathName} создана`);   
@@ -41,8 +41,8 @@ function fileHandler(fileName){
 Если она не существует, создаём её.*/
 fs.stat(copyPath, function(err) {
    if (!err) {
-       console.log(`Директория ${copyPath} существует. Создаем хеш существующих файлов`);
-       fs.readdir(copyPath, { withFileTypes: true }, (err, files) => {
+       console.log(`Директория ${copyPath} существует.`);
+       /*fs.readdir(copyPath, { withFileTypes: true }, (err, files) => {
             if (err){console.log("Директория не существует",err);}
             else{
                 console.log("Директория существует");
@@ -54,7 +54,7 @@ fs.stat(copyPath, function(err) {
                      };     
                });
             }
-         });
+         });*/
       
    }
    else if (err.code === 'ENOENT') {
@@ -99,38 +99,43 @@ fs.stat(copyPath, function(err) {
       if(file.isFile()){ 
          toFileName=path.join(copyPath, file.name);
          fromFileName=path.join(origPath, file.name);
-         console.log("toFileName="+toFileName);
-         console.log("fromFileName"+fromFileName);
-         if (!fileMap.has(file.name)){
-            /*Такого файла не существует*/
-            console.log("Файла не существует. Создаем файл"+toFileName);
-            fileHandler(toFileName);
+        
             
-            fs.copyFile(fromFileName, toFileName, err => {
-            if(err) throw err; // не удалось скопировать файл
-               console.log('Файл успешно скопирован');
-            });
-         };
-         
-         } else{
-            /* Файл существует. Проверяем дату изменения файла и обновляем файл, если он менялся*/
-                  console.log("Файл существует"+toFileName);
-                  
-                  timeFromFile=fileMap.get(file.name);
-                  fs.stat(toFileName, function(err, stats2) {
-                     if (err) {
-                        console.error(err);
-                        return;
-                     }
-                     timeToFile=stats2.mtime;
-                     console.log(`File1 date ${timeFromFile}`);
-                     console.log(`File2 date ${timeToFile}`);
-                  
-                  });
+            fs.stat(path.join(copyPath, file.name), function(err, stats2) {
                
-            }
-                        })
+               if (err==null) {
+                  console.log("Файл существует"+path.join(copyPath, file.name));
+                 /* timeToFile=stats2.mtime.valueOf();*/
+                  fs.stat(path.join(origPath, file.name), function(err, stats1) {
+                  if (err){ throw err;}
+                     /*timeFromFile = stats1.mtime.valueOf();*/
+                   /*  console.log(`File1 date ${timeFromFile}`);
+                     console.log(`File2 date ${timeToFile}`);*/
+                     if (stats1.mtime.valueOf()>stats2.mtime.valueOf()) {
+                        console.log("Файл изменился");
+                        fs.copyFile(path.join(origPath, file.name), path.join(copyPath, file.name), err => {
+                           if(err) throw err; // не удалось скопировать файл
+                              console.log('Файл успешно скопирован');
                            });
+                        };
+                     });
+                  }else if((err.code == 'ENOENT')){
+                           console.log("Файла не существует. Создаем файл"+path.join(copyPath, file.name));
+                           fileHandler(path.join(copyPath, file.name));
+                           fs.copyFile(path.join(origPath, file.name), path.join(copyPath, file.name), err => {
+                                 if(err) throw err; // не удалось скопировать файл
+                                 console.log('Файл успешно скопирован');
+                           });
+                        }else {
+                           console.error(err);
+                           return;
+                        };
+
+               });
+            };
+         })
+      })
+         
    
 
    
