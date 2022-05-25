@@ -23,6 +23,9 @@ function fileHandler(){
 fileHandler();
 stdout.write('Как тебя зовут?\n');
 stdin.on('data', data => {
+               if (data.toString().trim() === 'exit') {
+                     process.exit();
+               }
                let str = data.toString();
                str = str.replace('\n', '');
                fs.appendFile(path.join(__dirname, 'input.txt'),str,
