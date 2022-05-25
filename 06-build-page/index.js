@@ -4,11 +4,19 @@ const fsPromises = fs.promises;
 
 let projectPath = "project-dist";
 let cssFile="style.css";
+let cssBundlePath = "styles";
+let cssExt='css';
 let assetsPath="assets";
 let indexFile="index.html";
+let indexTemplateFile = "template.html";
+let componentsPath = "components";
 let projectPathFull = path.join(__dirname, projectPath); 
 let assetsPathOrig= path.join(__dirname, assetsPath); 
 let assetsPathTo = path.join(__dirname, projectPath, assetsPath); 
+let indexFileFrom = path.join(__dirname, indexTemplateFile);
+let indexFileTo = path.join(projectPathFull, indexFile);
+let cssBundlePathFull = path.join(__dirname, cssBundlePath);
+let cssFileTo = path.join(projectPathFull, cssFile);
 
 /*Функция создания файла*/
 function fileHandler(fileName){
@@ -84,7 +92,7 @@ function createPath(pathName){
 
    
 
-
+/*Функция рекурсивно копирует содержимое папки pathName  в директорию assetsPathTo*/
 function copyPath(pathName){
    
    fs.readdir(pathName, (err, files) => {
@@ -127,9 +135,20 @@ function copyPath(pathName){
       }
    });
 }
+/*Функция заменяет {{section}} на содержимое файла section.html, расположенного в папке FileFrom и возвращает true  
+ в случае успеха*/
+function bundleIndexFile(fileFrom, fileTo){
 
+   return true;
+}
+/*Функция собирает файлы css с расширением  ext в файл fileTo*/
+function bundleCSSFile (pathFrom, fileTo, ext){
+
+   return true;
+}
 
 createPath (projectPathFull);
 console.log(assetsPathOrig);
 copyPath(assetsPathOrig);
-
+bundleIndexFile(indexFileFrom, indexFileTo);
+bundleCSSFile(cssBundlePathFull, cssFileTo, cssExt);
