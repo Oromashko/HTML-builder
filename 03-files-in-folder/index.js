@@ -28,8 +28,8 @@ fs.readdir(secretFolder, { withFileTypes: true }, (err, files) => {
          ext=path.extname(file.name).replace('\.','');
          name1=file.name;
           /*console.log("Name1=", name1);*/
-         name1 = name1.replace(/\.[\s]+$/g,'');
-    
+         name1 = name1.replace( /\.[\S]+$/g,'');
+        /* console.log("Name1=", name1);*/
          output = name1+'-'+ext+'-'+size1;
          console.log(output);
       });
