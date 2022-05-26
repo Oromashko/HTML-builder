@@ -84,16 +84,6 @@ if (fileHandler(bundleFileNameFull)===true){
 
                
                   output = fs.createWriteStream(bundleFileNameFull, {start: 0}); 
-                  /*pipeline(
-                     input,
-                     addN,
-                     output,
-                     err => {
-                         if (err) {
-                             throw err;
-                         }
-                     }
-                  );*/
                   
                   input.on('data', chunk => data+=chunk);
                   input.on('error', error => console.log('Error', error.message));        
