@@ -1,7 +1,8 @@
-const secretFolder = './secret-folder';
+
 const fs = require('fs');
 const path = require('path');
 
+const secretFolder = path.join(__dirname, 'secret-folder');
 let size1;
 let path1;
 let output='';
