@@ -1,4 +1,6 @@
-const fs = require('fs')
+/*Todo:  Удаление папки files-copy до её копирование, а не обновление файлов устаревших 
+(Это не требуется, а из-за того, что я не удаляю папку часть файлов остается с прошлого запуска).*/
+const fs = require('fs');
 const path = require('path');
 const fsPromises = fs.promises;
 
@@ -19,7 +21,7 @@ console.log("copyPath=",copyPath);
 console.log("origPath=",origPath);
 
 function pathHandler(pathName){
-   console.log("function pathHandler");
+   /*console.log("function pathHandler");*/
    if (typeof pathName === 'string'){
       fs.mkdir(pathName, function(){
       console.log(`Директория ${pathName} создана`);   

@@ -1,3 +1,4 @@
+/*Todo: Сделать чтение через ReadStream*/
 const { stderr, stdout } = process;
 const fs = require('fs');
 const path = require('path');
